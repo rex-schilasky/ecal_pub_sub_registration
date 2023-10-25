@@ -1,0 +1,46 @@
+name: Build Windows Server 2019
+
+on:  
+  push:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Download eCAL
+      uses: i3h/download-release-asset@v1.3.2
+      with:
+        owner: continental
+        repo: ecal
+        tag: latest
+        file: ecal_5.12.0-win64.exe
+
+    - name: Install eCAL
+      run: |
+        ecal_5.12.0-win64.exe /SILENT
+      shell: cmd
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules:  'true'
+        fetch-depth: 0
+        
+    - name: CMake
+      run: |
+        mkdir "${{ runner.workspace }}/_build"
+        cd "${{ runner.workspace }}/_build"
+        cmake $GITHUB_WORKSPACE -DCMAKE_PREFIX_PATH=c:/ecal/cmake -DeCAL_DIR=c:/ecal/lib/cmake/ecal -DCMAKE_INSTALL_PREFIX:PATH=.
+      shell: bash
+
+    - name: Build
+      run: cmake --build . --config Release
+      working-directory: ${{ runner.workspace }}/_build
+
+    - name: Install
+      run: cmake --install .
+      working-directory: ${{ runner.workspace }}/_build
