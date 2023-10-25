@@ -14,7 +14,7 @@ jobs:
     - name: Download eCAL
       uses: i3h/download-release-asset@v1.3.3
       with:
-        owner: continental
+        owner: eclipse-ecal
         repo: ecal
         tag: latest
         file: ecal_5.12.0-win64.exe
