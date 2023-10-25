@@ -12,7 +12,7 @@ jobs:
     
     steps:
     - name: Download eCAL
-      uses: i3h/download-release-asset@v1.3.2
+      uses: i3h/download-release-asset
       with:
         owner: continental
         repo: ecal

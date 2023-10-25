@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 
   // add subscriber register callback function
   auto subscriber_registration_lambda = [&subscriber_registration_map](const char* sample_, int sample_size_) {
-    // remove timeouted subscriber
+    // remove timeout subscriber
     subscriber_registration_map.remove_deprecated();
     // parse subscriber protobuf sample
     eCAL::pb::Sample sample;
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     {
       // create unique map key
       std::string unique_entity_name = sample.topic().tname() + sample.topic().tid();
-      // check for existance
+      // check for existence
       if (subscriber_registration_map.find(unique_entity_name) == subscriber_registration_map.end())
       {
         std::cout << std::endl;
@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 
   // add publisher register callback function
   auto publisher_registration_lambda = [&publisher_registration_map](const char* sample_, int sample_size_) {
-    // remove timeouted publishers
+    // remove timeout publishers
     publisher_registration_map.remove_deprecated();
     // parse publisher protobuf sample
     eCAL::pb::Sample sample;
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     {
       // create unique map key
       std::string unique_entity_name = sample.topic().tname() + sample.topic().tid();
-      // check for existance
+      // check for existence
       if (publisher_registration_map.find(unique_entity_name) == publisher_registration_map.end())
       {
         std::cout << std::endl;
